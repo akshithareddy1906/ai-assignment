@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - "*"
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          cd part3-cicd
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Flake8
+        run: |
+          cd part3-cicd
+          flake8 .
+
+      - name: Run Tests
+        run: |
+          cd part3-cicd
+          python -m pytest
+
+  deploy:
+    needs: test
+
+    if: github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying application to staging..."
+          echo "Deployment Successful"
