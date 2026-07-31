@@ -154,10 +154,4 @@ python -m pytest
 
 **Akshitha Mandala**
 
-B.Tech – Electronics and Communication Engineering
 
----
-
-## License
-
-This project was created as part of an AI System Optimization Internship Assessment.
